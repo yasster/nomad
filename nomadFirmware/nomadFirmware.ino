@@ -21,7 +21,7 @@
 
 // Robot Parameters
 #define MSD         (0xff) // max speed
-#define ACC         (0x0f) // acceleration
+#define ACC         (0x05) // acceleration
 
 // Bottom IR sensors
 #define LTL         analogRead(10) // left sensor
