@@ -120,10 +120,10 @@ void _accelerate() {
     Serial.println("Accelerating ...");
     #endif
 
-    for (byte val=0x00; val<=MSD; val+=ACC) { // Control motor speed
+    for (int val=0x00; val<=MSD; val+=ACC) { // Control motor speed
         analogWrite(ENR, val);
         analogWrite(ENL, val);
-        delay(30);      
+        delay(20);      
     }
     return;
 }
@@ -133,9 +133,9 @@ void _accelerateLeft() {
     Serial.println("Accelerating ...");
     #endif
 
-    for (byte val=0x00; val<=MSD; val+=ACC) { // Control motor speed
+    for (int val=0x00; val<=MSD; val+=ACC) { // Control motor speed
         analogWrite(ENR, val);
-        delay(30);      
+        delay(20);      
     }
     return;
 }
@@ -144,9 +144,9 @@ void _accelerateRight() {
     Serial.println("Accelerating ...");
     #endif
 
-    for (byte val=0x00; val<=MSD; val+=ACC) { // Control motor speed
+    for (int val=0x00; val<=MSD; val+=ACC) { // Control motor speed
         analogWrite(ENL, val);
-        delay(30);      
+        delay(20);      
     }
     return;
 }
@@ -157,10 +157,10 @@ void _decelerate() {
     Serial.println("Decelerating ...");
     #endif
 
-    for (byte val=MSD; val>ACC; val-=ACC) {
+    for (int val=MSD; val>ACC; val-=ACC) {
         analogWrite(ENR, val);
         analogWrite(ENL, val);
-        delay(30);      
+        delay(20);      
     }
     return;
 }
