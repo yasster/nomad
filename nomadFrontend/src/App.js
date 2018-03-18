@@ -4,15 +4,25 @@ import './App.css';
 
 // Mains
 class View extends Component {
+	constructor() {
+		super();
+		this.state = {
+			element: "Standby"
+		}
+	}
+
+	renderView() {
+		let ret = 0;
+		let el = <img id="bg-video" src="http://localhost:8000/stream/" onError={() => {ret=1 }} alt="Err"/>
+		
+		return ret;
+	}
+
 	render() {
-		var element;
 		return (
 			<div id="view" className="d-flex position-absolute bg-transparent">
 				<div className="bg-dark w-100 d-flex justify-content-center align-items-center">
-				{/* <iframe title="video" id="bg-video"
-					src="https://www.youtube.com/embed/qQlijvjsurE?autoplay=1&amp;controls=0&amp;showinfo=0&amp;start=10&amp;loop=1">
-				</iframe> */}
-				{element ? element : "Standby"}
+				{ this.state.element === "Steady" ? this.renderView() : "Steady" }
 				</div>
 			</div>
 		);
@@ -134,7 +144,7 @@ class Overlay extends Component {
 				auto: "AUTO"
 			},
 			direction: {
-				stay: "STAY",
+				stay: "STAT",
 				forward: "FRWD",
 				reverse: "BKWD",
 				left: "LEFT",
@@ -152,6 +162,13 @@ class Overlay extends Component {
 		if (event.key === " ") {
 			this.setState({ modeStatus: !this.state.modeStatus }, function stateUpdateComplete() {
 				console.log(this.state.modeStatus);
+				fetch('https://thawing-woodland-49697.herokuapp.com/api/motion', {
+					method: 'POST',
+					body: JSON.stringify({type:this.state.modeStatus}),
+					headers: {
+						"Content-Type": "application/json"
+					},
+				});
 			}.bind(this));
 		}
 	}
@@ -186,12 +203,27 @@ class Overlay extends Component {
 
 		this.setState({ dirStatus: dir }, function stateUpdateComplete() {
 			console.log(this.state.dirStatus);
+			fetch('https://thawing-woodland-49697.herokuapp.com/api/motion', {
+				method: 'POST',
+				body: JSON.stringify({type:this.state.dirStatus}),
+				headers: {
+					"Content-Type": "application/json"
+				},
+			});
 		}.bind(this));
 	}
 
 	handleKeyUp(event) {
 		this.setState({ dirStatus: this.state.direction.stay }, function stateUpdateComplete() {
 			console.log(this.state.dirStatus);
+			fetch('https://thawing-woodland-49697.herokuapp.com/api/motion', {
+				method: 'POST',
+				body: JSON.stringify({type: this.state.dirStatus}),
+				headers: {
+					"Content-Type": "application/json"
+				},
+			});
+
 		}.bind(this));
 	}
 
