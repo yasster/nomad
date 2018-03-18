@@ -14,9 +14,10 @@ Tested with Raspberry Pi 3 Model B
     - connect to WiFi (Network Options)
     - enable camera (Interfacing Options)
     - set Memory Split to 16 MB (Advanced Options)
-2. `pip3 install pyserial pyrebase`
-3. `sudo apt install vlc libav-tools`
-4. create script to livestream
+2. clone this repository: `git clone https://github.com/attackle/nomad.git` and `cd nomad`
+3. `pip3 install -r requirements.txt`
+4. `sudo apt install vlc libav-tools`
+5. create script to livestream: `cd ~` then
     - `echo "raspivid -t 0 -vf -hf -w 640 -h 480 -fps 15 -b 1000000 -o - | cvlc -vvv stream:///dev/stdin --sout '#standard{access=http,mux=ts,dst=:8090}' :demux=h264" > stream.sh`
     	- `-t 0 `: no timeout (stream indefinitely)
     	- `-vf`: vertical flip (flip video vertically)
@@ -28,4 +29,10 @@ Tested with Raspberry Pi 3 Model B
     	- `access=http`: livestream can be accessed via HTTP
     	- `dst=:8090`: destination is localhost port 8090
     - `chmod a+x stream.sh`
-    - `./stream.sh` to execute
+
+## Execution
+
+### Raspberry Pi
+From the home directory (`cd ~` to go there):
+- `./stream.sh` to start livestream
+- `cd ~/nomad/nomadBrain && python3 nomadBrain.py`
