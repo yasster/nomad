@@ -5,24 +5,30 @@ import './App.css';
 // Mains
 class View extends Component {
 	constructor() {
-		super();
+		super()
 		this.state = {
-			element: "Standby"
+			src: "http://localhost:8000/stream/",
+			showSpinner: true
 		}
 	}
 
-	renderView() {
-		let ret = 0;
-		let el = <img id="bg-video" src="http://localhost:8000/stream/" onError={() => {ret=1 }} alt="Err"/>
-		
-		return ret;
-	}
+	componentDidMount() {
+        var self = this;
+        var img = new Image();
+        img.onerror = function () {
+            self.setState({ 
+				src: '/api/no-stream',
+				showSpinner: true
+			});
+        };
+        img.src = this.state.src;
+    }
 
 	render() {
 		return (
 			<div id="view" className="d-flex position-absolute bg-transparent">
 				<div className="bg-dark w-100 d-flex justify-content-center align-items-center">
-				{ this.state.element === "Steady" ? this.renderView() : "Steady" }
+					{this.state.showSpinner ? <i class="fa fa-spinner fa-4x  fa-spin"></i> : <img src={this.state.src} alt="Standby"/>}
 				</div>
 			</div>
 		);
