@@ -4,31 +4,32 @@ import './App.css';
 
 // Mains
 class View extends Component {
-	constructor() {
-		super()
-		this.state = {
-			src: "http://localhost:8000/stream/",
-			showSpinner: true
-		}
-	}
+	// constructor() {
+	// 	super()
+	// 	this.state = {
+	// 		src: "http://localhost:8000/stream/",
+	// 		showSpinner: true
+	// 	}
+	// }
 
-	componentDidMount() {
-        var self = this;
-        var img = new Image();
-        img.onerror = function () {
-            self.setState({ 
-				src: '/api/no-stream',
-				showSpinner: true
-			});
-        };
-        img.src = this.state.src;
-    }
+	// componentDidMount() {
+    //     var self = this;
+    //     var img = new Image();
+    //     img.onerror = function () {
+    //         self.setState({ 
+	// 			src: 'http://localhost:8000/stream/',
+	// 			showSpinner: 
+	// 		});
+    //     };
+    //     img.src = this.state.src;
+    // }
 
 	render() {
 		return (
 			<div id="view" className="d-flex position-absolute bg-transparent">
 				<div className="bg-dark w-100 d-flex justify-content-center align-items-center">
-					{this.state.showSpinner ? <i class="fa fa-spinner fa-4x  fa-spin"></i> : <img src={this.state.src} alt="Standby"/>}
+					{/* { this.state.showSpinner ? <i class="fa fa-spinner fa-4x  fa-spin"></i> : <img src={this.state.src} alt="Standby"/>} */}
+					<img id="bg-video" src="http://localhost:8000/stream/" alt="Standby"/>
 				</div>
 			</div>
 		);
