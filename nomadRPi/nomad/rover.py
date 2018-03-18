@@ -121,7 +121,7 @@ def init():
     ports = list(serial.tools.list_ports.comports())
     if ports == []:
         PY_LOGGER.warning("No ports found")
-        return # exit if no connection
+        return False # exit if no connection
     for portString in ports:
         # If uno is found in string
         if 'ACM' in str(portString):
@@ -130,8 +130,9 @@ def init():
             ARDUINO = Arduino("nomad", port)
             PY_LOGGER.info("Connected to Arduino")
             print_info()
-            return
+            return True
     PY_LOGGER.info("No Arduino found!")
+    return False
 
 if __name__ == "__main__":
     init()
