@@ -37,7 +37,7 @@ def forward():
     
     # Send command
     ARDUINO.send_str_data(cmd)
-    sleep(2)
+    sleep(1)
     ARDUINO.send_str_data(STOP_CMD)
 
 def back():
@@ -50,7 +50,7 @@ def back():
     
     # Send command
     ARDUINO.send_str_data(cmd)
-    sleep(2)
+    sleep(1)
     ARDUINO.send_str_data(STOP_CMD)
 
 def right():
@@ -63,7 +63,7 @@ def right():
     
     # Send command
     ARDUINO.send_str_data(cmd)
-    sleep(2)
+    sleep(1)
     ARDUINO.send_str_data(STOP_CMD)
 
 def left():
@@ -76,7 +76,7 @@ def left():
     
     # Send command
     ARDUINO.send_str_data(cmd)
-    sleep(2)
+    sleep(1)
     ARDUINO.send_str_data(STOP_CMD)
 
 def sensor():
@@ -89,8 +89,20 @@ def sensor():
     
     # Send command
     ARDUINO.send_str_data(cmd)
-    print_info()
-    sleep(2)
+    
+    # print_info()
+    msg = ""
+    while True:
+        m = ARDUINO.read_str_data()
+        if m == '>':
+            break
+        else:
+            msg += m
+
+    # sensor data
+    s1, s2, s3 = int(msg[2:5]), int(msg[5:8]), int(msg[8:11])
+    PY_LOGGER.info("Sensor Data: {}, {}, {}".format(s1,s2,s3))
+    return s1, s2, s3
 
 def battery():
     global ARDUINO
@@ -102,8 +114,18 @@ def battery():
     
     # Send command
     ARDUINO.send_str_data(cmd)
-    print_info()
-    sleep(2)
+
+    # print_info()
+    msg = ""
+    while True:
+        m = ARDUINO.read_str_data()
+        if m == '>':
+            break
+        else:
+            msg += m
+    battery_level = int(msg[2:])
+    PY_LOGGER.info("Battery Level: {}".format(battery_level))
+    return battery_level
 
 def print_info():
     global ARDUINO
