@@ -1,97 +1,132 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
-    AppRegistry,
-    asset,
-    Pano,
-    Text,
-    View,
-    Video,
-    VideoControl,
-    MediaPlayerState
+	AppRegistry,
+	asset,
+	Pano,
+	Text,
+	View,
+	Video,
+	Image,
 } from 'react-vr';
-import Fixed from './fixed.vr'
 
-class HUDTop extends Component {
-    render() {
-        return(
-            <Fixed>
-                <View style={{backgroundColor: 'red', flex: 0.5}} >
-                    <Text>HUDTop</Text>
-                </View>
-            </Fixed>
-        );
-    }
-}
-class HUDBottomLeft extends Component {
-    render() {
-        return(
-            <View style={{flexDirection: 'row', height: 1, padding: 0.2}}>
-                <View style={{backgroundColor: 'blue', flex: 0.3}}>
-                <Text>HUDBottomLeft</Text>
-                </View>
-            </View>
-        );
-    }
-}
-class HUDBottomRight extends Component {
-    render() {
-        return(
-            <View style={{flexDirection: 'row', height: 1, padding: 0.2}}>
-                <View style={{backgroundColor: 'blue', flex: 0.3}} >
-                    <Text>HUDBottomRight</Text>
-                </View>
-            </View>
-        );
-    }
+// Templates
+class HUD extends Component {
+	render() {
+		return (
+			<Text
+				style={{
+					fontSize: 0.1,
+					fontWeight: '400',
+					paddingLeft: 0.2,
+					paddingRight: 0.2,
+					textAlign: 'center',
+					textAlignVertical: 'center',
+				}}>
+				{this.props.name}
+			</Text>
+		);
+	}
 }
 
-class Overlay extends Component {
-    constructor() {
-        super();
-    }
-    render() {
-        return(
-            <View
-                style={{
-                    flexDirection:'column'
-                }}>
-                <HUDTop />
-                <View
-                    style={{
-                        flexDirection:'row'
-                    }}>
-                    <HUDBottomLeft />
-                    <HUDBottomRight />
-                </View>
-            </View>
-        );
-    }
+// Components
+function StatusBar(props) {
+	return(
+		<View 
+			style={{
+				position: 'absolute',
+				transform: [
+          {translate: [0, 0.9, -2]},
+          {rotateX: 30},
+        ],
+        layoutOrigin: [0.5, 0.5],
+        height: 0.12,
+        width: 1.5,
+        backgroundColor: '#777879bd',
+        borderRadius: 0.03,
+			}} >
+		</View>
+	);
+}
+function DataWindow(props) {
+	return(
+		<View 
+			style={{
+				position: 'absolute',
+				transform: [
+					{translate: [1.3, -0.7, -2]},
+					{rotateY: -30},
+					{rotateX: -20},
+				],
+        layoutOrigin: [0.5, 0.5],
+        height: 0.5,
+        width: 0.6,
+        backgroundColor: '#777879bd',
+        borderRadius: 0.03,
+			}} >
+			<HUD name=""/>
+		</View>
+	);
+}
+function Map(props) {
+	return (
+		<View 
+			style={{
+				position: 'absolute',
+				transform: [
+          {translate: [-1.3, -0.7, -2]},
+          {rotateY: 30},
+          {rotateX: -20},
+        ],
+        layoutOrigin: [0.5, 0.5],
+        height: 0.5,
+        width: 0.6,
+        backgroundColor: '#777879bd',
+        borderRadius: 0.03,
+			}} >
+			<HUD name=""/>
+		</View>
+	);
 }
 
+class Feed extends Component {
+	render() {
+		return(
+			<View
+				style={{
+					layoutOrigin: [0.5, 0.5],
+					transform: [
+            {translate: [0, 0, -3]},
+          ],
+					zIndex: -1,
+				}}>
+				<Image 
+					style={{ 
+						width: 4, 
+						height: 2,
+						opacity: 1,
+					}}
+					source={asset('bg.jpg')}
+				/>
+			</View>
+		);
+	}
+}
+
+// App
 class NomadVR extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
-    
-    render() {
-        return (
-            <View>
-                <Pano source={asset('chess-world.jpg')} />
-                <View
-                    style={{
-                        alignItems: 'center',
-                        layoutOrigin: [0.5, 0.5, 0],
-                        transform: [{translate: [0, 0, -3]}],
-                    }}>
-                    <Overlay />
-                </View>
-            </View>
-        );
-    }
+	render() {
+		return (
+			<View>
+				<Pano source={asset('hex-world.jpg')}/>
+				<Feed />
+				<StatusBar />
+				<DataWindow />
+				<Map />
+			</View>
+		);
+	}
 };
 
 export default NomadVR
 
-AppRegistry.registerComponent('nomadVR', () => NomadVR);
+AppRegistry.registerComponent('nomad-vr', () => NomadVR);
