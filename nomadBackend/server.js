@@ -7,9 +7,9 @@ var cors = require('cors');
 var bodyParser = require('body-parser')
 
 // Pi Functions
-var Pi = require('./lib/pi-firebase');
+var Pi = require('./library/pi-firebase');
 
-var data = require('./lib/object-firebase');
+var data = require('./library/object-firebase');
 
 //Live Stream URL
 var urlStream = '...';
